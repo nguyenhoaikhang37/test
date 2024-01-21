@@ -1,0 +1,25 @@
+.task-list {
+  padding-left: 8px; /* Replace with your desired value */
+  padding-right: 8px; /* Replace with your desired value */
+  scrollbar-color: dark;
+}
+
+.task-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.task-list::-webkit-scrollbar-track {
+  background-color: #f2f2f2; /* Replace with your desired color */
+  border-radius: 4px; /* Replace with your desired value */
+}
+
+.task-list::-webkit-scrollbar-thumb {
+  background-color: #ff69b4; /* Replace with your desired color */
+}
+
+
+.item.is-dragging {
+  background: #515b7d;
+  border-color: #08ff08;
+  box-shadow: 0px 0px 2px rgb(8, 58, 30), 0px 0px 10px MediumSeaGreen;
+}

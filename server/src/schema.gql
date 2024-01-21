@@ -1,0 +1,461 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Board {
+  _id: String!
+  columnsId: [String!]!
+  createdAt: Timestamp!
+  createdById: String!
+  description: String
+  groupPermission: [GroupPermission!]
+  isAvailable: Boolean!
+  isPublicTemplate: Boolean
+  isTemplate: Boolean
+  modifiedById: String
+  owners: [User!]!
+  ownersId: [String!]!
+  properties: [FieldProperty!]!
+  teamId: String
+  title: String!
+  updatedAt: Timestamp
+}
+
+enum BoardAction {
+  CreateCard
+  CreateComment
+  DeleteCard
+  DeleteComment
+  EditBoard
+  EditCard
+  EditComment
+  EditGroup
+  EditProperty
+}
+
+union BoardDataBlockUnion = Board | Card | Checklist | Column | Comment
+
+input BoardInput {
+  teamId: String
+  title: String!
+}
+
+type Card {
+  _id: String!
+  ancestorPath: String!
+  checklists: [Checklist!]!
+  comments: [Comment!]!
+  createdAt: Timestamp!
+  createdById: String!
+  description: String
+  fieldsData: JSON
+  isAvailable: Boolean!
+  modifiedById: String
+  parentId: String!
+  title: String!
+  updatedAt: Timestamp
+}
+
+type Checklist {
+  _id: String!
+  ancestorPath: String!
+  boardId: String!
+  createdAt: Timestamp!
+  createdById: String!
+  isAvailable: Boolean!
+  isCheck: Boolean!
+  items: [ChecklistItem!]!
+  modifiedById: String
+  parentId: String!
+  title: String!
+  updatedAt: Timestamp
+}
+
+input ChecklistInput {
+  title: String!
+}
+
+type ChecklistItem {
+  _id: String!
+  isCheck: Boolean!
+  title: String!
+}
+
+input ChecklistItemInput {
+  isCheck: Boolean
+  title: String!
+}
+
+type Column {
+  _id: String!
+  ancestorPath: String!
+  cards: [Card!]!
+  cardsId: [String!]!
+  createdAt: Timestamp!
+  createdById: String!
+  isAvailable: Boolean!
+  modifiedById: String
+  parentId: String!
+  title: String!
+  updatedAt: Timestamp
+}
+
+type Comment {
+  _id: String!
+  ancestorPath: String!
+  commentTo: CommentTo!
+  comments: [Comment!]!
+  content: String!
+  createdAt: Timestamp!
+  createdBy: User!
+  createdById: String!
+  isAvailable: Boolean!
+  modifiedById: String
+  parentId: String!
+  updatedAt: Timestamp
+}
+
+input CommentInput {
+  commentTo: CommentTo
+  content: String!
+}
+
+enum CommentTo {
+  Card
+  Comment
+}
+
+input CreateCardInput {
+  title: String!
+}
+
+input CreateColumnInput {
+  title: String!
+}
+
+input CreateMessageReferenceInput {
+  description: String
+  members: [CreateMessageReferenceMemberInput!]
+  messageReferenceType: MessageReferenceType!
+  teamId: String
+  title: String!
+}
+
+input CreateMessageReferenceMemberInput {
+  role: MessageReferenceMemberRole
+  userId: String!
+}
+
+input CreateTeamInput {
+  description: String
+  title: String!
+}
+
+input CreateTeamMemberInput {
+  role: TeamMemberRole
+  userId: String!
+}
+
+input CreateUserInput {
+  avatar: String!
+  email: String!
+  nickname: String!
+  password: String!
+  userName: String!
+}
+
+input FieldInput {
+  fieldOption: [FieldOptionInput!]
+  fieldType: FieldType!
+  title: String!
+}
+
+input FieldOptionInput {
+  _id: String
+  color: String
+  title: String
+}
+
+type FieldProperty {
+  _id: String!
+  fieldOption: [Option!]
+  fieldType: FieldType!
+  title: String!
+}
+
+enum FieldType {
+  Date
+  Link
+  MultiPeople
+  MultiSelect
+  Number
+  Select
+  String
+}
+
+input GroupInput {
+  boardActions: [BoardAction!]!
+  title: String!
+  usersId: [String!]!
+}
+
+type GroupPermission {
+  _id: String!
+  boardActions: [BoardAction!]!
+  title: String!
+  users: [User!]!
+  usersId: [String!]!
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+type LoggedUserOutput {
+  _id: String!
+  access_token: String!
+  avatar: String!
+  email: String!
+  nickname: String!
+  userName: String!
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
+}
+
+type Message {
+  _id: String!
+  ancestorPath: String!
+  attachments: [String!]
+  content: String!
+  createdAt: Timestamp!
+  createdBy: User!
+  createdById: String!
+  isAvailable: Boolean!
+  messageReferenceId: String!
+  messages: [Message!]!
+  modifiedById: String
+  replyToMessageId: String
+  updatedAt: Timestamp
+}
+
+input MessageInput {
+  attachments: [String!]
+  content: String!
+}
+
+type MessageReference {
+  _id: String!
+  createdAt: Timestamp!
+  createdById: String!
+  description: String
+  isAvailable: Boolean!
+  isPublic: Boolean
+  members: [MessageReferenceMember!]!
+  messageReferenceType: MessageReferenceType!
+  modifiedById: String
+  pinId: String
+  teamId: String
+  title: String!
+  updatedAt: Timestamp
+}
+
+type MessageReferenceMember {
+  _id: String!
+  role: MessageReferenceMemberRole!
+  userId: String!
+}
+
+enum MessageReferenceMemberRole {
+  Admin
+  Member
+}
+
+enum MessageReferenceType {
+  Channel
+  Group
+  Personal
+}
+
+type Mutation {
+  addBoardField(boardId: String!, fieldInput: FieldInput!): Boolean!
+  addBoardGroup(boardId: String!, groupInput: GroupInput!): Boolean!
+  addMessageReferenceMembers(members: [CreateMessageReferenceMemberInput!]!, messageReferenceId: String!): MessageReference!
+  addTeamMembers(members: [CreateTeamMemberInput!]!, teamId: String!): Team!
+  createBoard(boardInput: BoardInput!): Board!
+  createCard(cardInput: CreateCardInput!, columnId: String!): Boolean!
+  createChecklist(boardId: String!, cardId: String!, input: ChecklistInput!): Boolean!
+  createChecklistItem(checklistId: String!, item: ChecklistItemInput!): Boolean!
+  createColumn(boardId: String!, columnInput: CreateColumnInput!): Boolean!
+  createComment(input: CommentInput!, parentId: String!): Boolean!
+  createMessage(input: MessageInput!, parentId: String!): Boolean!
+  createMessageReference(messageReferenceInput: CreateMessageReferenceInput!): MessageReference!
+  createTeam(teamInput: CreateTeamInput!): Team!
+  createUser(createUserInput: CreateUserInput!): User!
+  deleteBoardField(boardId: String!, fieldId: String!): Boolean!
+  deleteBoardGroup(boardId: String!, groupId: String!): Boolean!
+  deleteChecklist(checklistId: String!): Boolean!
+  deleteChecklistItems(checklistId: String!, itemsId: [String!]!): Boolean!
+  deleteComment(commentId: String!): Boolean!
+  deleteMessage(messageId: String!): Boolean!
+  deleteMessageReference(messageReferenceId: String!): MessageReference!
+  deleteMessageReferenceMembers(membersId: [String!]!, messageReferenceId: String!): MessageReference!
+  deleteTeam(teamId: String!): Team!
+  deleteTeamMembers(membersId: [String!]!, teamId: String!): Team!
+  editBoardField(boardId: String!, fieldInput: UpdateFieldInput!): Boolean!
+  editBoardGroup(boardId: String!, groupInput: UpdateGroupInput!): Boolean!
+  loginUser(loginUserInput: LoginUserInput!): LoggedUserOutput!
+  updateBoard(boardId: String!, boardInput: UpdateBoardInput!): Boolean!
+  updateCard(cardId: String!, cardInput: UpdateCardInput!): Card!
+  updateCardPosition(cardId: String!, fromColumnId: String!, toColumnId: String!, toPosition: Float!): Boolean!
+  updateChecklist(checklistId: String!, input: UpdateChecklistInput!): Boolean!
+  updateChecklistItems(checklistId: String!, items: [UpdateChecklistItemInput!]!): Boolean!
+  updateColumn(columnId: String!, columnInput: UpdateColumnInput!): Boolean!
+  updateColumnPosition(boardId: String!, columnId: String!, toPosition: Float!): Boolean!
+  updateComment(input: UpdateCommentInput!): Boolean!
+  updateMessage(input: UpdateMessageInput!): Boolean!
+  updateMessageReference(messageReferenceId: String!, messageReferenceInput: UpdateMessageReferenceInput!): MessageReference!
+  updateMessageReferenceMembers(members: [UpdateMessageReferenceMemberInput!]!, messageReferenceId: String!): MessageReference!
+  updateTeam(teamId: String!, teamInput: UpdateTeamInput!): Team!
+  updateTeamMembers(members: [UpdateTeamMemberInput!]!, teamId: String!): Team!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+}
+
+type Option {
+  _id: String!
+  color: String!
+  title: String!
+}
+
+type Query {
+  boards: [Board!]!
+  flatBoard(boardId: String!): [BoardDataBlockUnion!]!
+  getMyProfileInfo: User!
+  getUserData: [WorkspaceInfoBlockUnion!]!
+  teams: [Team!]!
+  user(id: String!): User!
+}
+
+type Subscription {
+  boardDatablocksUpdated(rootId: String!): [BoardDataBlockUnion!]!
+  workspaceInfoBlocksUpdated: [WorkspaceInfoBlockUnion!]!
+}
+
+type Team {
+  _id: String!
+  avatar: String
+  createdAt: Timestamp!
+  createdById: String!
+  description: String
+  isAvailable: Boolean!
+  members: [TeamMember!]
+  modifiedById: String
+  title: String!
+  updatedAt: Timestamp
+}
+
+type TeamMember {
+  _id: String!
+  role: TeamMemberRole!
+  userId: String!
+}
+
+enum TeamMemberRole {
+  Admin
+  Member
+}
+
+"""
+`Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
+"""
+scalar Timestamp
+
+input UpdateBoardInput {
+  avatar: String
+  description: String
+  title: String
+}
+
+input UpdateCardInput {
+  description: String
+  fieldsData: JSON
+  title: String
+}
+
+input UpdateChecklistInput {
+  title: String
+}
+
+input UpdateChecklistItemInput {
+  _id: String!
+  isCheck: Boolean
+  title: String
+}
+
+input UpdateColumnInput {
+  title: String
+}
+
+input UpdateCommentInput {
+  content: String
+}
+
+input UpdateFieldInput {
+  _id: String!
+  fieldOption: [FieldOptionInput!]
+  fieldType: FieldType
+  title: String
+}
+
+input UpdateGroupInput {
+  _id: String!
+  boardActions: [BoardAction!]
+  title: String
+  usersId: [String!]
+}
+
+input UpdateMessageInput {
+  attachments: [String!]
+  content: String
+}
+
+input UpdateMessageReferenceInput {
+  description: String
+  title: String
+}
+
+input UpdateMessageReferenceMemberInput {
+  _id: String!
+  role: MessageReferenceMemberRole!
+}
+
+input UpdateTeamInput {
+  description: String
+  title: String
+}
+
+input UpdateTeamMemberInput {
+  _id: String!
+  role: TeamMemberRole!
+}
+
+input UpdateUserInput {
+  _id: String!
+  avatar: String
+  email: String
+  nickname: String
+  userName: String
+}
+
+type User {
+  _id: String!
+  avatar: String!
+  email: String!
+  nickname: String!
+  userName: String!
+}
+
+union WorkspaceInfoBlockUnion = Board | MessageReference | Team

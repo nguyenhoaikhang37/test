@@ -1,0 +1,12 @@
+{
+  "name": "live-board",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "docker-compose -f dev-compose.yml up",
+    "start:server": "docker-compose -f dev-compose.yml up server mongodb",
+    "start:client": "docker-compose -f dev-compose.yml up client",
+    "start:mongodb": "docker-compose -f dev-compose.yml up mongodb",
+    "lint": "cd server && yarn lint && cd ../client && yarn lint"
+  }
+}
